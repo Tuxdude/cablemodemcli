@@ -14,26 +14,37 @@ file an Issue or submit a pull request with details for further discussion.
 Just build and run the binary with the necessary flags depending on your
 cable modem configuration.
 
+## Relevant `cablemodemcli` Flags
+
 ```
-Usage of cablemodemcli:
+  -host string
+        Hostname or IP of your Arris S33 Cable modem (default "192.168.100.1")
+  -protocol string
+        HTTP or HTTPS protocol to use (default "https")
+  -skipverifycert
+        Skip SSL cert verification (because of self-signed certs on the cable modem) (default true)
+  -username string
+        Admin username (default "admin")
+  -password string
+        Admin password (default "password")
+```
+
+## Debugging and Miscellaneous `cablemodemcli` Flags
+```
   -debug
         Log additional debug information except for requests and responses
   -debugReq
         Log additional debug information for requests
   -debugResp
         Log additional debug information for responses
-  -host string
-        Hostname or IP of your Arris S33 Cable modem (default "192.168.100.1")
-  -password string
-        Admin password (default "password")
-  -protocol string
-        HTTP or HTTPS protocol to use (default "https")
-  -skipverifycert
-        Skip SSL cert verification (because of self-signed certs on the cable modem) (default true)
+  -delay int
+        Number of seconds delay between successive query attempts in a loop, setting a negative value here will result in applying a random delay each time (default 300)
+  -loop int
+        Number of times to query in a loop, -1 to loop forever until an error (default 1)
+  -print
+        Whether to display the output of each status query (default true)
   -status_file string
         Instead of querying the cable modem input, read the specified status file (in JSON format) just to verify parsing
-  -username string
-        Admin username (default "admin")
 ```
 
 # Example:

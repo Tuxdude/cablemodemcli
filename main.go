@@ -1,3 +1,4 @@
+// Command cablemodemcli is a tool to query the cable modem.
 package main
 
 import (
@@ -5,9 +6,16 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
+	"time"
 
 	"github.com/tuxdude/cablemodemutil"
+)
+
+const (
+	minRandDelaySeconds = 5 * 60
+	maxRandDelaySeconds = 30 * 60
 )
 
 // Returns the JSON formatted string representation of the specified object.
@@ -17,6 +25,13 @@ func prettyPrintJSON(x interface{}) string {
 		return fmt.Sprintf("%#v", x)
 	}
 	return string(p)
+}
+
+func randDelay() time.Duration {
+	max := maxRandDelaySeconds
+	min := minRandDelaySeconds
+	d := rand.Intn(max-min) + min
+	return time.Duration(d) * time.Second
 }
 
 func handleErr(err error) int {
@@ -38,7 +53,9 @@ func runInFileMode() int {
 	if err != nil {
 		return handleErr(err)
 	}
-	fmt.Println(prettyPrintJSON(status))
+	if *showOutput {
+		fmt.Println(prettyPrintJSON(status))
+	}
 	return 0
 }
 
@@ -58,15 +75,60 @@ func run() int {
 	input.Debug.DebugReq = *debugReq
 	input.Debug.DebugResp = *debugResp
 	cm := cablemodemutil.NewStatusRetriever(&input)
-	status, err := cm.Status()
-	if err != nil {
-		return handleErr(err)
+	beginTime := time.Now()
+	nextRequestTime := beginTime
+
+	if *loop == 0 {
+		fmt.Fprintln(os.Stderr, "Warning: -loop flag set to zero, hence not querying status from the cable modem.")
 	}
-	fmt.Println(prettyPrintJSON(status))
+
+	forever := *loop < 0
+	pending := *loop
+	for forever || pending > 0 {
+		pending--
+		currTime := time.Now()
+		if *delay < 0 {
+			nextRequestTime = nextRequestTime.Add(randDelay())
+		} else {
+			nextRequestTime = nextRequestTime.Add(time.Duration(*delay) * time.Second)
+		}
+		if *debug {
+			fmt.Printf("\n\n************************************************\n")
+			fmt.Printf("Begin time:%s\n", beginTime)
+			fmt.Printf("Status Query time: %s\n", currTime)
+			fmt.Printf("************************************************\n\n")
+		}
+
+		status, err := cm.Status()
+		if err != nil {
+			return handleErr(err)
+		}
+		if *showOutput {
+			fmt.Println(prettyPrintJSON(status))
+		}
+
+		if *debug {
+			if forever || pending > 0 {
+				fmt.Printf("\n\n************************************************\n")
+				fmt.Printf("Begin time:%s\n", beginTime)
+				fmt.Printf("Last Query time: %s\n", currTime)
+				fmt.Printf("Next Query time: %s\n", nextRequestTime)
+				fmt.Printf("************************************************\n\n")
+				time.Sleep(time.Until(nextRequestTime))
+			} else {
+				fmt.Printf("\n\n************************************************\n")
+				fmt.Printf("Begin time:%s\n", beginTime)
+				fmt.Printf("Last Query time: %s\n", currTime)
+				fmt.Printf("************************************************\n\n")
+			}
+		}
+	}
+
 	return 0
 }
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 	flag.Parse()
 	os.Exit(run())
 }
