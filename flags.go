@@ -11,4 +11,5 @@ var (
 	skipVerifyCert = flag.Bool("skipverifycert", true, "Skip SSL cert verification (because of self-signed certs on the cable modem)")
 	username       = flag.String("username", "admin", "Admin username")
 	password       = flag.String("password", "password", "Admin password")
+	readFromFile   = flag.String("status_file", "", "Instead of querying the cable modem input, read the specified status file (in JSON format) just to verify parsing")
 )

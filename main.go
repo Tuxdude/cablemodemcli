@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	"github.com/tuxdude/cablemodemutil"
@@ -18,7 +19,34 @@ func prettyPrintJSON(x interface{}) string {
 	return string(p)
 }
 
+func handleErr(err error) int {
+	fmt.Fprintf(os.Stderr, "Error: %s", err)
+	return 1
+}
+
+func runInFileMode() int {
+	f, err := ioutil.ReadFile(*readFromFile)
+	if err != nil {
+		return handleErr(err)
+	}
+	var raw cablemodemutil.CableModemRawStatus
+	err = json.Unmarshal(f, &raw)
+	if err != nil {
+		return handleErr(err)
+	}
+	status, err := cablemodemutil.ParseRawStatus(raw)
+	if err != nil {
+		return handleErr(err)
+	}
+	fmt.Println(prettyPrintJSON(status))
+	return 0
+}
+
 func run() int {
+	if *readFromFile != "" {
+		return runInFileMode()
+	}
+
 	input := cablemodemutil.RetrieverInput{
 		Host:           *host,
 		Protocol:       *protocol,
@@ -32,8 +60,7 @@ func run() int {
 	cm := cablemodemutil.NewStatusRetriever(&input)
 	status, err := cm.Status()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %s", err)
-		return 1
+		return handleErr(err)
 	}
 	fmt.Println(prettyPrintJSON(status))
 	return 0

@@ -30,6 +30,8 @@ Usage of cablemodemcli:
         HTTP or HTTPS protocol to use (default "https")
   -skipverifycert
         Skip SSL cert verification (because of self-signed certs on the cable modem) (default true)
+  -status_file string
+        Instead of querying the cable modem input, read the specified status file (in JSON format) just to verify parsing
   -username string
         Admin username (default "admin")
 ```
