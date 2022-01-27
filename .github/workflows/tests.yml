@@ -1,0 +1,57 @@
+---
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches:
+      - master
+  schedule:
+    - cron: '00 18 * * 4'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Tests
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Run Tests (Linux/ OSX)
+        if: ${{ matrix.os != 'windows-latest' }}
+        run: go test -v -race -coverprofile coverage.out -covermode atomic ./...
+
+      - name: Run Tests (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: go test -v ./...
+
+      - name: Upload coverage to Codecov (Linux / OSX)
+        uses: codecov/codecov-action@v2
+        if: ${{ matrix.os != 'windows-latest' }}
+        with:
+          files: coverage.out
+          fail_ci_if_error: true
+          flags: unittests
+          verbose: true
