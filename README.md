@@ -16,6 +16,13 @@ cable modem configuration.
 
 ## Relevant `cablemodemcli` Flags
 
+These are the common set of flags that will be required for typically
+querying your cable modem. In many cases the default values of these
+flags might already have the right value and you can skip specifying
+such flag altogether.
+
+See the [example](#example-usage) for a typical usage.
+
 ```
   -host string
         Hostname or IP of your Arris S33 Cable modem (default "192.168.100.1")
@@ -29,7 +36,17 @@ cable modem configuration.
         Admin password (default "password")
 ```
 
-## Debugging and Miscellaneous `cablemodemcli` Flags
+## Advanced Debugging and Miscellaneous `cablemodemcli` Flags
+
+These are more advanced flags meant for either debugging the CLI
+and/or the `cablemodemutil` library along with debugging the
+control (eg. run the program in a loop and validate that the
+library/CLI behaves correctly).
+
+You could potentially use that to run a daemon although logging
+so much information to STDOUT might not be relevant for most
+scenarios.
+
 ```
   -debug
         Log additional debug information except for requests and responses
@@ -47,7 +64,7 @@ cable modem configuration.
         Instead of querying the cable modem input, read the specified status file (in JSON format) just to verify parsing
 ```
 
-# Example:
+# Example Usage
 
 ```
 $ cablemodemcli -host 192.168.100.1 -username user1 -password pass1
