@@ -16,6 +16,12 @@ cable modem configuration.
 
 ```
 Usage of cablemodemcli:
+  -debug
+        Log additional debug information except for requests and responses
+  -debugReq
+        Log additional debug information for requests
+  -debugResp
+        Log additional debug information for responses
   -host string
         Hostname or IP of your Arris S33 Cable modem (default "192.168.100.1")
   -password string

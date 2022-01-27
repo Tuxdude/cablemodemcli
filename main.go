@@ -26,6 +26,9 @@ func run() int {
 		Username:       *username,
 		ClearPassword:  *password,
 	}
+	input.Debug.Debug = *debug
+	input.Debug.DebugReq = *debugReq
+	input.Debug.DebugResp = *debugResp
 	cm := cablemodemutil.NewStatusRetriever(&input)
 	status, err := cm.Status()
 	if err != nil {
