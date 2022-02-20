@@ -2,4 +2,4 @@ module github.com/tuxdude/cablemodemcli
 
 go 1.17
 
-require github.com/tuxdude/cablemodemutil v0.1.0
+require github.com/tuxdude/cablemodemutil v0.2.0
