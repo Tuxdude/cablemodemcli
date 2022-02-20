@@ -1,8 +1,6 @@
 # cablemodemcli
 
-[![Build](https://github.com/Tuxdude/cablemodemcli/actions/workflows/build.yml/badge.svg)](https://github.com/Tuxdude/cablemodemcli/actions/workflows/build.yml) [![Tests](https://github.com/Tuxdude/cablemodemcli/actions/workflows/tests.yml/badge.svg)](https://github.com/Tuxdude/cablemodemcli/actions/workflows/tests.yml)
-
-[![Lint](https://github.com/Tuxdude/cablemodemcli/actions/workflows/lint.yml/badge.svg)](https://github.com/Tuxdude/cablemodemcli/actions/workflows/lint.yml) [![CodeQL](https://github.com/Tuxdude/cablemodemcli/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Tuxdude/cablemodemcli/actions/workflows/codeql-analysis.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/tuxdude/cablemodemcli)](https://goreportcard.com/report/github.com/tuxdude/cablemodemcli)
+[![Build](https://github.com/Tuxdude/cablemodemcli/actions/workflows/build.yml/badge.svg)](https://github.com/Tuxdude/cablemodemcli/actions/workflows/build.yml) [![Tests](https://github.com/Tuxdude/cablemodemcli/actions/workflows/tests.yml/badge.svg)](https://github.com/Tuxdude/cablemodemcli/actions/workflows/tests.yml) [![Lint](https://github.com/Tuxdude/cablemodemcli/actions/workflows/lint.yml/badge.svg)](https://github.com/Tuxdude/cablemodemcli/actions/workflows/lint.yml) [![CodeQL](https://github.com/Tuxdude/cablemodemcli/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Tuxdude/cablemodemcli/actions/workflows/codeql-analysis.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/tuxdude/cablemodemcli)](https://goreportcard.com/report/github.com/tuxdude/cablemodemcli)
 
 A CLI (written in go) for querying the status of Cable Modems.
 
