@@ -1,2 +1,4 @@
-cablemodemcli
+.makesystem
+coverage.out
 dist/
+cablemodemcli
