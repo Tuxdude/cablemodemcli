@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"time"
@@ -40,7 +39,7 @@ func handleErr(err error) int {
 }
 
 func runInFileMode() int {
-	f, err := ioutil.ReadFile(*readFromFile)
+	f, err := os.ReadFile(*readFromFile)
 	if err != nil {
 		return handleErr(err)
 	}
