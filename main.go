@@ -128,7 +128,6 @@ func run() int {
 }
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
 	flag.Parse()
 	os.Exit(run())
 }
